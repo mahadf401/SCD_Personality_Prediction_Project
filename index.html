@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Insights</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Personality Test</h1>
+        <form id="personalityForm" action="/submit" method="post">
+            <div id="questionsContainer">
+                <!-- Questions will be dynamically inserted here -->
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Add JavaScript for interactivity here
+        const questions = {{ questions | tojson | safe}};
+        const questionsContainer = document.getElementById('questionsContainer');
+
+        questions.forEach(question => {
+            const questionHTML = `
+                <div class="form-group">
+                    <label for="${question['Notation']}">${question['Question']}</label>
+                    <select class="form-control" name="${question['Notation']}">
+                        <option value="1">Disagree</option>
+                        <option value="2">Partially Disagree</option>
+                        <option value="3">Neutral</option>
+                        <option value="4">Partially Agree</option>
+                        <option value="5">Agree</option>
+                    </select>
+                </div>
+            `;
+            questionsContainer.innerHTML += questionHTML;
+        });
+    </script>
+</body>
+</html>
